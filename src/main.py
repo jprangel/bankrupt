@@ -19,6 +19,8 @@ player4_position = 0
 player_position = 0
 complete_round = 100
 list_houses_owners = []
+list_position_player1 = []
+list_position_player2 = []
 list_houses = []
 
 def logger():
@@ -60,20 +62,40 @@ def getPosition(value_dice,player):
 
     global player_position
     global item_house
+    global list_position_player1
+    global list_position_player2
 
     if player == 'Impulsivo':
-        player_position = player1_position + value_dice
-        log.info('Andando... '+ str(player_position)+' casas')
+        if len(list_position_player1) != 0:
+            player_position = list_position_player1.pop() + value_dice
+            list_position_player1.append(player_position)
+            log.info('Andando... '+str(list_position_player1.pop())+' casas')
+            print(list_position_player1)
+        else:
+            print("position" + str(player1_position))
+            player_position = player1_position + value_dice
+            list_position_player1.append(player_position)
+            print(list_position_player1)
 
     elif player == 'Exigente':
-        player_position = player2_position + value_dice
-        log.info('Andando... '+ str(player_position)+' casas')
+        if len(list_position_player2) != 0:
+            player_position = list_position_player2.pop() + value_dice
+            list_position_player2.append(player_position)
+            log.info('Andando... '+str(list_position_player2.pop())+' casas')
+            print(list_position_player2)
+        else:
+            print("position" + str(player2_position))
+            player_position = player2_position + value_dice
+            list_position_player2.append(player_position)
+            print(list_position_player2)
     
     item_house = value_dice-1
     player_position = value_dice-1
 
     return player_position
     return item_house
+    return list_position_player1
+    return list_position_player2
 
 def priceToBuyHouse(value_position):
 
@@ -139,7 +161,6 @@ def rentHouse(item_player,value_position):
         log.info('Jogador: ' + str(item_player) + ' - Alugando Casa: ' + str(value_dice) + ' - Valor: ' + str(price) + ' - Saldo: ' + str(balance))
     else:
         log.info('Jogador: ' + str(item_player) + ' - Alugando Casa: ' + str(value_dice) + ' - Valor: ' + str(price) + ' - Nao possui Saldo: ' + str(balance))
-
 
 def playBankrupt(list_players):
     
